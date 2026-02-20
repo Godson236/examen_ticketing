@@ -1,59 +1,277 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎫 HelpDesk Pro - Plateforme de Ticketing
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
-## About Laravel
+## 📋 Description du projet
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**HelpDesk Pro** est une application web de gestion de tickets support développée avec Laravel dans le cadre d'un projet d'examen. Elle permet aux utilisateurs de créer des demandes d'assistance et aux administrateurs de les gérer efficacement.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+L'application propose une **interface moderne** avec des effets 3D sur la page de connexion et un dashboard intuitif.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ✨ Fonctionnalités principales
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🔐 Authentification
+- ✅ Inscription et connexion sécurisées
+- ✅ Protection des routes par middleware
+- ✅ Gestion de session
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🎫 Gestion des tickets
+- ✅ **Création** de tickets (titre, catégorie, description)
+- ✅ **Consultation** de la liste des tickets
+- ✅ **Visualisation** du détail d'un ticket
+- ✅ **Réponse** aux tickets (commentaires)
+- ✅ **Changement de statut** (ouvert, en cours, résolu, fermé)
+- ✅ **Suppression** de tickets (admin uniquement)
 
-## Laravel Sponsors
+### 👥 Gestion des rôles
+| Rôle | Droits |
+|------|--------|
+| **Utilisateur** | Créer ses tickets, voir ses tickets, répondre à ses tickets |
+| **Administrateur** | Voir tous les tickets, changer les statuts, supprimer des tickets, répondre à tous |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🎨 Interface utilisateur
+- ✅ Page d'accueil professionnelle
+- ✅ Page de connexion avec **effets 3D**
+- ✅ Dashboard avec statistiques
+- ✅ Design responsive (mobile, tablette, desktop)
+- ✅ Thème clair/sombre automatique
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📊 Diagramme de classe UML
 
-## Contributing
+![Diagramme de classe](diagramme.png)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Structure des données
 
-## Code of Conduct
+```
++----------------+          +----------------+          +----------------+
+|     User       |          |    Ticket      |          |   Response     |
++----------------+          +----------------+          +----------------+
+| - id : int     |          | - id : int     |          | - id : int     |
+| - name : string|1        *| - title : string|1        *| - message : text|
+| - email : string|<-------->| - description  |<-------->| - ticket_id:int |
+| - password :   |          | - category     |          | - user_id : int |
++----------------+          | - status       |          +----------------+
+| + tickets()    |          | - user_id : int|          | + ticket()      |
+| + responses()  |          +----------------+          | + user()        |
++----------------+          | + user()       |          +----------------+
+                            | + responses()  |
+                            +----------------+
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Relations
+- **Un utilisateur** peut avoir **plusieurs tickets** (1..*)
+- **Un ticket** peut avoir **plusieurs réponses** (1..*)
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 👥 Analyse des acteurs
 
-## License
+### Acteur 1 : Utilisateur
+- Personne qui a besoin d'aide
+- Crée des tickets pour signaler un problème
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Acteur 2 : Administrateur
+- Personne qui gère les tickets
+- Aide les utilisateurs à résoudre leurs problèmes
+
+### Cas d'utilisation
+
+| Acteur | Cas d'utilisation | Description |
+|--------|-------------------|-------------|
+| Utilisateur | S'inscrire | Créer un compte sur la plateforme |
+| Utilisateur | Se connecter | Accéder à son espace personnel |
+| Utilisateur | Créer un ticket | Soumettre une nouvelle demande |
+| Utilisateur | Voir ses tickets | Consulter la liste de ses demandes |
+| Utilisateur | Voir un ticket | Visualiser les détails d'un ticket |
+| Utilisateur | Répondre à un ticket | Ajouter un commentaire |
+| Administrateur | Voir tous les tickets | Accéder à tous les tickets du système |
+| Administrateur | Changer le statut | Modifier l'état d'un ticket (ouvert, en cours, résolu) |
+| Administrateur | Supprimer un ticket | Retirer un ticket du système |
+| Administrateur | Répondre aux tickets | Ajouter des commentaires à n'importe quel ticket |
+
+### Règles de gestion
+- Un utilisateur ne voit **que ses propres tickets**
+- L'administrateur voit **tous les tickets**
+- Tout le monde peut répondre aux tickets
+- Seul l'administrateur peut changer le statut et supprimer
+- L'administrateur est identifié par l'email `admin@admin.com`
+
+---
+
+## 🛠️ Technologies utilisées
+
+| Technologie | Version | Utilisation |
+|-------------|---------|-------------|
+| **Laravel** | 12 | Framework PHP backend |
+| **PHP** | 8.2 | Langage de programmation |
+| **MySQL** | 8.0 | Base de données |
+| **Tailwind CSS** | 3 | Framework CSS |
+| **Font Awesome** | 6 | Icônes |
+| **Git** | - | Versionning |
+| **GitHub** | - | Hébergement du code |
+
+---
+
+## 🔧 Installation et déploiement
+
+### Prérequis
+- PHP ≥ 8.2
+- Composer
+- MySQL
+- Node.js (optionnel, pour les assets)
+
+### Étapes d'installation
+
+1. **Cloner le dépôt**
+   ```bash
+   git clone https://github.com/Godson236/examen_ticketing.git
+   cd examen_ticketing
+   ```
+
+2. **Installer les dépendances PHP**
+   ```bash
+   composer install
+   ```
+
+3. **Configurer l'environnement**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configurer la base de données**
+   - Créez une base de données nommée `examen_ticketing`
+   - Modifiez le fichier `.env` :
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=examen_ticketing
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+5. **Lancer les migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Compiler les assets (optionnel)**
+   ```bash
+   npm install
+   npm run build
+   ```
+
+7. **Démarrer le serveur**
+   ```bash
+   php artisan serve
+   ```
+
+8. **Accéder à l'application**
+   - URL : http://127.0.0.1:8000
+
+---
+
+## 🔑 Comptes de test
+
+| Rôle | Email | Mot de passe |
+|------|-------|--------------|
+| **Administrateur** | `admin@admin.com` | (celui que vous choisissez à l'inscription) |
+| **Utilisateur** | `user@test.com` | (à créer via l'inscription) |
+
+---
+
+
+---
+
+## 📂 Structure du projet
+
+```
+📁 examen_ticketing/
+├── 📁 app/
+│   ├── 📁 Http/
+│   │   ├── 📁 Controllers/
+│   │   │   ├── TicketController.php
+│   │   │   └── Auth/
+│   │   └── ...
+│   ├── 📁 Models/
+│   │   ├── User.php
+│   │   ├── Ticket.php
+│   │   └── Response.php
+│   └── ...
+├── 📁 database/
+│   ├── 📁 migrations/
+│   └── ...
+├── 📁 resources/
+│   ├── 📁 views/
+│   │   ├── 📁 tickets/
+│   │   ├── 📁 layouts/
+│   │   └── 📁 auth/
+│   └── ...
+├── 📁 routes/
+│   └── web.php
+├── 📄 ANALYSE.md
+├── 📄 diagramme.png
+├── 📄 README.md
+└── ...
+```
+
+---
+
+## 🧪 Tests effectués
+
+- [x] Inscription fonctionnelle
+- [x] Connexion fonctionnelle
+- [x] Création de ticket
+- [x] Affichage des tickets (selon rôle)
+- [x] Réponse aux tickets
+- [x] Changement de statut (admin)
+- [x] Suppression de ticket (admin)
+- [x] Déconnexion
+- [x] Sécurité (accès interdit aux tickets des autres)
+
+---
+
+## 🚀 Améliorations possibles
+
+- 🔜 Notifications par email
+- 🔜 Pièces jointes dans les tickets
+- 🔜 Statistiques avancées
+- 🔜 Interface multilingue
+- 🔜 API RESTful
+
+---
+
+## 📌 Auteur
+
+**Godson236**
+
+- GitHub : [@Godson236](https://github.com/Godson236)
+- Projet réalisé dans le cadre d'un examen de développement web
+
+---
+
+## 📅 Informations
+
+- **Date** : 2026
+- **Version** : 1.0.0
+- **Licence** : MIT
+
+---
+
+## 🙏 Remerciements
+
+- Merci à mon formateur pour son accompagnement
+- Merci à la communauté Laravel pour sa documentation
+- Merci à vous pour la lecture ! 😊
+
+---
+
+⭐ **N'hésitez pas à laisser une étoile sur GitHub si ce projet vous a plu !**
